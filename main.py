@@ -7,7 +7,7 @@ from TTS.api import TTS
 from api_key import get_api_key  # Import the function from your api_key module
 
 # --- Vosk STT setup ---
-model = vosk.Model("path/to/vosk/model")  # Replace with your Vosk model path
+model = vosk.Model("./")  # Replace with your Vosk model path
 samplerate = 16000
 device = 1  # You might need to change this depending on your audio setup
 
@@ -49,15 +49,19 @@ def speak_text(text):
   os.system("aplay output.wav")  
 
 if __name__ == "__main__":
-  gemini_api_key = get_api_key()  # Get the API key using your function
-  if gemini_api_key:  # Check if the API key was retrieved successfully
-    while True:
-      print("Listening...")
-      text = transcribe_speech()
-      print("You said:", text)
-      if text:
-        gemini_response = get_gemini_response(text, gemini_api_key)  # Pass the API key
-        print("Gemini says:", gemini_response)
-        speak_text(gemini_response)
-  else:
-    print("Error: Could not retrieve API key.")
+    gemini_api_key = get_api_key()
+    if gemini_api_key:
+        while True:
+            print("Listening...")
+            text = transcribe_speech()
+            print("You said:", text)
+            logging.info(f"User: {text}")  # Log user input
+
+            if text:
+                gemini_response = get_gemini_response(text, gemini_api_key)
+                print("Gemini says:", gemini_response)
+                logging.info(f"Gemini: {gemini_response}")  # Log Gemini output
+                speak_text(gemini_response)
+    else:
+        print("Error: Could not retrieve API key.")
+        logging.error("Could not retrieve API key.")  # Log the error
