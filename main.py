@@ -7,7 +7,7 @@ from TTS.api import TTS
 from api_key import get_api_key  # Import the function from your api_key module
 
 # --- Vosk STT setup ---
-model = vosk.Model("./")  # Replace with your Vosk model path
+model = vosk.Model("./vosk-model-small-en-us-0.15/")  # Replace with your Vosk model path
 samplerate = 16000
 device = 1  # You might need to change this depending on your audio setup
 
